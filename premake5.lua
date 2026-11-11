@@ -11,6 +11,11 @@ project "GLFW"
         "include/GLFW/glfw3native.h",
         "src/glfw_config.h",
         "src/context.c",
+        "src/null_init.c",
+        "src/null_joystick.c",
+        "src/null_monitor.c",
+        "src/null_window.c",
+        "src/platform.c",
         "src/init.c",
         "src/input.c",
         "src/monitor.c",
@@ -19,13 +24,14 @@ project "GLFW"
     }
     
 	filter "system:windows"
-        buildoptions { "-std=c11", "-lgdi32" }
+        cdialect "C11"
         systemversion "latest"
         staticruntime "On"
         
         files
         {
             "src/win32_init.c",
+            "src/win32_module.c",
             "src/win32_joystick.c",
             "src/win32_monitor.c",
             "src/win32_time.c",
@@ -43,3 +49,7 @@ project "GLFW"
 		}
     filter { "system:windows", "configurations:Release" }
         buildoptions "/MT"
+
+    filter { "configurations:Debug" }
+        runtime "Debug"
+        symbols "On"
